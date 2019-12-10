@@ -1,0 +1,4 @@
+<div (mouseover)="updateNote()"> 
+<label for="textInput" class="font-weight-bold">{{header}}</label>
+<input class="form-control" [ngClass]="{'is-valid':status[0], 'is-invalid': status[1]}" id="textInput" [type]="type" (change)="updateAnswer($event)" >
+</div>

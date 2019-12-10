@@ -1,0 +1,13 @@
+<form >
+  <div class="row form-group" (mouseover)="updateNote()">
+    <div class="col-12">
+      <label for="controlSelect" class="font-weight-bold">{{header}}</label>
+      <select class="form-control" id="controlSelect" [ngClass]="{'is-valid':status[0], 'is-invalid': status[1]}"
+        (change)="putAnswer($event)">
+        <!-- muss mit ngFor gemacht werden -->
+        <option value="" disabled>------- Choose -------</option>
+        <option *ngFor="let answer of possibleAnswer" value="{{answer}}">{{answer}}</option>
+      </select>
+    </div>
+  </div>
+</form>

@@ -1,0 +1,25 @@
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-md-3">
+      <a href="/">
+        <img src="assets/logo-kiel-sailing-city.svg" alt="Landeshauptstadt Kiel" style="max-height: 50px;">
+      </a>
+    </div>
+  </div>
+  <div class="row" style="padding: 10px;">
+    <div class="col bg-primary" style=" width: 100px; height: 30px;"></div>
+  </div>
+</div>
+<div class="row">
+  <div class="col-7">
+    <app-frage-list (NoteEvent)="currentNote= $event" [questions]="questions"></app-frage-list>
+  </div>
+  <div class="col-5">
+    <!-- Zwei Div um die Hinweis-Componente sticky zu machen -->
+    <div class="sidebar-item">
+      <div class="make-me-sticky">
+        <app-hinweis [note]="currentNote"></app-hinweis>
+      </div>
+    </div>
+  </div>
+</div>

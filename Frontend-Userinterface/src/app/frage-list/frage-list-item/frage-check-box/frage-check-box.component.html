@@ -1,0 +1,27 @@
+<div #divCheckbox (mouseover)="updateNote()">
+  <!-- Rausfinden wie ich die Werte asu den Checkboxen bekomme -->
+  <!-- Im DOM über children aufgreifen, dann kann man rüber Iterieren, unter LocalName kann man dann 
+        was es ist. Ob INput oder Label. Dann Wenn man Input hat kann man mit Labels rausfinden welches Label
+      dazu gehört. Dieses greift über labels[0].innerText zu.  -->
+  <!-- Auch mit ngFor ausbauen und [ngClass]="{'is-valid':correct, 'is-invalid': !correct}" einbauen für farbe -->
+
+  <!-- Der ngFor-Code nach dem Testen der Einheit. 
+          <span *ngFor="let answer in possibleAnswer; let i = index; ">
+            <input class="form-check-input" type="checkbox" value="" [id]="i">
+            <label class="form-check-label" [for]="i">
+              {{anwer}}
+            </label>
+          </span>
+
+        -->
+
+  <!-- das muss mit required eingebaut werden -->
+  <label class="font-weight-bold">{{header}}</label>
+  <div class="custom-control custom-checkbox">
+    <div *ngFor="let answer of possibleAnswer;let i = index;">
+      <input type="checkbox" class="custom-control-input" [ngClass]="{'is-valid':status[0], 'is-invalid': status[1]}"
+        [id]="i">
+      <label class="custom-control-label" [for]="i">{{answer}}</label>
+    </div>
+  </div>
+</div>

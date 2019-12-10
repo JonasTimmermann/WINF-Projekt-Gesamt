@@ -1,0 +1,14 @@
+<div style="padding: 5px 0 5px 0;">
+        <!-- Oder Formular für Unternehmen. -->
+        <app-frage-text-input *ngIf="question.typ == questionTypes.text" [note]="question.note"
+                [header]="question.frage" [type]="'text'" (AnswerEvent)="AnswerEvent.emit($event)"
+                (NoteEvent)="this.NoteEvent.emit($event)"></app-frage-text-input>
+        <app-frage-drop-down *ngIf="question.typ == questionTypes.dropDown" [note]="question.note"
+                [header]="question.frage" [possibleAnswer]="question.antworten" (AnswerEvent)="AnswerEvent.emit($event)"
+                (NoteEvent)="NoteEvent.emit($event)"> </app-frage-drop-down>
+        <app-frage-check-box *ngIf="question.typ == questionTypes.checkBox" [note]="question.note"
+                [header]="question.frage" [possibleAnswer]="question.antworten" (AnswerEvent)="AnswerEvent.emit($event)"
+                (NoteEvent)="NoteEvent.emit($event)"> </app-frage-check-box>
+        <app-frage-data-input *ngIf="question.typ == questionTypes.dataInput" [note]="question.note"
+                [header]="question.frage" (NoteEvent)="NoteEvent.emit($event)"></app-frage-data-input>
+</div>
