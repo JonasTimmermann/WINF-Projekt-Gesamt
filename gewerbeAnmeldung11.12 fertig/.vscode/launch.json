@@ -1,0 +1,21 @@
+{
+    "configurations": [
+        {
+            "type": "java",
+            "name": "CodeLens (Launch) - GewerbeanmeldungApplication",
+            "request": "launch",
+            "mainClass": "com.example.gewerbeanmeldung.GewerbeanmeldungApplication",
+            "projectName": "gewerbeanmeldung"
+        },
+        {
+            "type": "java",
+            "name": "Spring Boot-SimpleProjectApplication<simpleProject>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "console": "internalConsole",
+            "mainClass": "com.gewerbe.simpleProject.SimpleProjectApplication",
+            "projectName": "simpleProject",
+            "args": ""
+        }
+    ]
+}
