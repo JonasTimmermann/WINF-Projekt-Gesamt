@@ -1,0 +1,158 @@
+
+
+
+
+
+<!-- "https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" -->
+
+<p>formular works! {{name}}</p>
+
+
+<div style="text-align:center">
+    <h1>
+        <span><b>{{ title }} </b> app is running!</span>
+    </h1>
+  <img width="800" src="/assets/img/ferrari.jpg">
+  </div>
+  <h2>Here are some links to help you :)</h2>
+  <ul>
+  <li>
+    <h2><a target="_blank" href="http://t-online.de">Tour</a></h2>
+  </li>
+  <li>
+    <h2><a target="_blnk" href="http://google.de">Another Link</a></h2>
+  </li>
+
+
+  <br>
+  <br>
+  <br>
+      <br>
+<!--(submit)="addKontaktData({vorname: vorname, nachname: nachname, age: age, street: street, city: city, state: state})"-->
+<h2>Daten aus DB: </h2>
+<table width="50%" cellspacing="2px" style="border-spacing: 5px;">
+<tr *ngFor="let c of data">
+        <td>{{c.id}}: </td>
+        <td>{{c.nachname}} </td>
+        <td> {{c.vorname}} </td>
+        <td> ({{c.geburtsdatum}})</td>
+</tr>
+</table>
+
+<button class="btn btn-success" (click)="createPerson()">Create</button>
+<br>
+<button class="btn btn-success" (click)="deletePerson()">Delete</button>
+<br>
+<!--<button class="btn btn-success" (click)="updatePerson()">Update</button>-->
+<br>
+<br>
+ <h1>DeleteURL: {{person.id}},    {{person.vorname}}</h1> 
+<br>
+
+<form>
+<div class="form-group">
+        <label for="exampleInputEmail1">DeleteID: {{deleteId}}</label>
+        <br>
+        <input type="text" [(ngModel)]="deleteId" name="deleteID" class="form-control" id="deleteP" aria-describedby="emailHelp" placeholder="Enter Id to delete">
+        <small id="emailHelp" class="form-text text-muted">The One to delete</small>
+        <br> 
+        <br>
+        <br>
+
+        <label for="exampleInputEmail2">Vorname: {{person.vorname}}</label>
+        <br>
+        <input type="text" [(ngModel)]="person.vorname" name="vornameID" class="form-control" id="vornameP" aria-describedby="emailHelp" placeholder="Dein Vorname">
+        <small id="emailHelp1" class="form-text text-muted">Vorname eintragen bitte</small>
+        <br> 
+
+        <label for="exampleInputEmail3">Nachname: {{person.nachname}}</label>
+        <br>
+        <input type="text" [(ngModel)]="person.nachname" name="nachnameID" class="form-control" id="nachnameP" aria-describedby="emailHelp" placeholder="Dein Nachname">
+        <small id="emailHelp2" class="form-text text-muted">Nachname eintragen bitte</small>
+        <br> 
+
+        <label for="exampleInputEmail4">Geburtsdatum: {{person.geburtsdatum}}</label>
+        <br>
+        <input type="text" [(ngModel)]="person.geburtsdatum" name="geburtsdatumID" class="form-control" id="geburtsdatumP" aria-describedby="emailHelp" placeholder="Dein Geburtsdatum">
+        <small id="emailHelp3" class="form-text text-muted">Geburtsdatum eintragen bitte</small>
+        <br> 
+</div>
+<button class="btn btn-outline-success" (click)="deletePerson({dId: deleteId})" >Delete</button>
+<button class="btn btn-outline-success" (click)="createPerson()" >Neue Person hinzufügen</button><br>
+<p>{{confirm}}<p>
+</form>
+
+
+
+
+<br>
+<br>
+<br>
+<br>
+
+
+
+  <h3>Gewerbeanmeldung</h3>
+  <form >
+
+      <div>
+                <label for="name">Vor-Name: </label><br>
+                <input type="text" [(ngModel)]="kontakt.vorname" name="vorname">
+               
+      </div>
+      <div>
+          <label for="name">Nach-Name: </label><br>
+          <input type="text" [(ngModel)]="kontakt.nachname" name="nachname">
+      </div>
+      <div>
+              <label for="age">Alter: </label><br>
+              <input type="number" [(ngModel)]="kontakt.age" name="age">
+      </div>
+
+
+      <div>
+              <label for="street">Straße: </label><br>
+              <input type="text" [(ngModel)]="kontakt.street" name="street">
+      </div>
+      <div>
+              <label for="city">Stadt: </label><br>
+              <input type="text" [(ngModel)]="kontakt.city" name="city">
+      </div>
+      <div>
+              <label for="state">Bundesland: </label><br>
+              <input type="text" [(ngModel)]="kontakt.state" name="state">
+      </div>
+
+      <button class="btn btn-success" (click)="addKontaktData( { vorname: kontakt.vorname, nachname: kontakt.nachname, age: kontakt.age, street: kontakt.street, city: kontakt.city, state: kontakt.state} )">Submit</button>
+  
+</form>
+
+
+  <h1>Deine Daten: </h1>
+<ul>
+
+<li>Data: {{kontakt.vorname}},   {{getDimensionsByFind('Jonas')}}</li>
+
+<li *ngFor="let data of kontakt; let i = index">
+    {{i+1}}: {{ data.vorname }}, {{ data.nachname }}, {{ data.age }}, {{ data.street }}, {{ data.city }}, {{ data.state }} 
+</li>
+</ul>
+
+
+<form (submit)="addKontaktData(hobby.value)">
+<div>
+        <label for="hobby">Hobby:</label>
+        <input type="text" #hobby>
+        
+</div>
+
+
+
+<!--
+<form (submit)="addKontaktData(vorname.value)">
+<div>
+<label for="hobby">Hobby:</label>
+<input type="text" #hobby>
+
+</div>
+-->

@@ -1,0 +1,17 @@
+com\example\gewerbeanmeldung\QuestionType\QuestionType.class
+com\example\gewerbeanmeldung\Choices\Choices.class
+com\example\gewerbeanmeldung\Question\QuestionController.class
+com\example\gewerbeanmeldung\GewerbeanmeldungApplication.class
+com\example\gewerbeanmeldung\Question\QuestionRepository.class
+com\example\gewerbeanmeldung\Question\Question.class
+com\example\gewerbeanmeldung\QuestionType\QuestionTypeRepository.class
+com\example\gewerbeanmeldung\Choices\ChoicesService.class
+com\example\gewerbeanmeldung\QuestionType\QuestionTypeController.class
+com\example\gewerbeanmeldung\QuestionCategory\QuestionCategoryService.class
+com\example\gewerbeanmeldung\QuestionCategory\QuestionCategoryRepository.class
+com\example\gewerbeanmeldung\QuestionCategory\QuestionCategoryController.class
+com\example\gewerbeanmeldung\Choices\ChoicesController.class
+com\example\gewerbeanmeldung\Choices\ChoicesRepository.class
+com\example\gewerbeanmeldung\QuestionType\QuestionTypeService.class
+com\example\gewerbeanmeldung\Question\QuestionService.class
+com\example\gewerbeanmeldung\QuestionCategory\QuestionCategory.class
