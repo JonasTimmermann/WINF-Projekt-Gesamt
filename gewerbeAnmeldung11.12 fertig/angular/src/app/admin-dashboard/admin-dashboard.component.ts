@@ -35,40 +35,38 @@ import {NgbModal, ModalDismissReasons} from '@ng-bootstrap/ng-bootstrap';
 export class AdminDashboardComponent implements OnInit {
 
 
+// https://meinformular.herokuapp.com/frage
+  url = 'https://meinformular.herokuapp.com/frage';
 
+  url3 = 'https://meinformular.herokuapp.com/frage';   //'http://localhost:8090/frage';
 
-  url = 'http://localhost:8080/frage';
-
-
-  url3 = 'http://localhost:8090/frage';
-
-  urlAdd = 'http://localhost:8090/frage/add';
+  urlAdd = 'https://meinformular.herokuapp.com/frage/add';// 'http://localhost:8090/frage/add';
   
   urlById: number = -1;
-  urlGetbyId = 'http://localhost:8090/frage/' + this.urlById;
+  urlGetbyId = 'https://meinformular.herokuapp.com/frage/' + this.urlById;  //'http://localhost:8090/frage/'
 
   formType: string = ""; 
-  urlFormType = 'http://localhost:8090/type/' + this.formType;
+  urlFormType = 'https://meinformular.herokuapp.com/type/' + this.formType; //'http://localhost:8090/type/' 
 
   
 
 // Url für die Kategorien-Methoden (mit String als Parameter) 
   formTypeCat: string = ""; 
   categoryCat: string = ""; 
-  urlFormTypeCategory = 'http://localhost:8090/type/' + this.formTypeCat + '/category/' + this.categoryCat;
-  urlCategory = 'http://localhost:8090/category/' + this.categoryCat;
+  urlFormTypeCategory = 'https://meinformular.herokuapp.com/type/' + this.formTypeCat + '/category/' + this.categoryCat;
+  urlCategory = 'https://meinformular.herokuapp.com/category/' + this.categoryCat;
 
 // Url und Id's für die Bearbeitungs-Methoden 
   editId: number = -1;
-  urlEdit: string = 'http://localhost:8090/frage/' + this.editId + '/edit';
+  urlEdit: string = 'https://meinformular.herokuapp.com/frage/' + this.editId + '/edit';
 
   editIdNext: number = -1;
-  urlEditNext: string = 'http://localhost:8090/frage/' + this.editId + '/addfollowing';
+  urlEditNext: string = 'https://meinformular.herokuapp.com/frage/' + this.editId + '/addfollowing';
  
 
 // Url und Id für die Lösch-Methode 
   deleteIdQuestion = -1;
-  urlDelete = 'http://localhost:8090/frage/' + this.deleteIdQuestion + '/delete';
+  urlDelete = 'https://meinformular.herokuapp.com/frage/' + this.deleteIdQuestion + '/delete';
 
 
 
@@ -210,7 +208,7 @@ this.dataOne = this.question;
 
 
 
-
+console.log("Changes worked so far so good");
 this.api
 .getQuestion(this.url3)
 .subscribe(
@@ -318,7 +316,7 @@ changeCatOn(): void{
 // Bei Klick auf eine Der Fragen aus dem Fragekatalog werden die Daten der geklickten Frage geladen
   loadQuestion(question: any): void {
 
-    this.urlGetbyId = 'http://localhost:8090/frage/' + this.question.id;
+    this.urlGetbyId = 'https://meinformular.herokuapp.com/frage/' + this.question.id;
 
     this.api.getQuestionbyId(this.urlGetbyId).subscribe(dataOne => {console.log(dataOne); question = dataOne;},err => {console.log(err);});
     
@@ -390,7 +388,8 @@ if(!this.check){
     this.question.id = 1;
   }
  
-  
+}//
+
   let zt: number = this.data[this.data.length - 1].questionType.id + 1;
 
   let questionZw: QuestionType = {id: zt, type: this.question.questionType.type, nextQuestionId: null, choices: this.choiceArray}; 
@@ -430,11 +429,15 @@ if(!this.check){
     let dataShort: QuestionShort;
 
     dataShort = {question: this.question.question, questionType: dataShortQuestionType, hint: this.question.hint, formType: this.question.formType, questionCategories: dataShortCategory };
-
+    console.log("Changes wurden gespeichert");
   this.api.addQuestion(dataShort, this.urlAdd).subscribe(data => {console.log(data); this.data = data; this.dataDisplay = data;}, err => {console.log(err);});
 
-}
- location.reload();
+  //}
+  console.log("Changes wurden gespeichert");
+
+  
+  setTimeout(window.location.reload.bind(window.location), 1250);
+ //location.reload();
 
 }
 
@@ -443,7 +446,7 @@ if(!this.check){
 
 
 getAllQuestion(): void {
-
+  console.log("Changes wurden gespeichert!!!!!!!!!!!!!!!!");
   this.api.getQuestion(this.url3).subscribe(data => {console.log(data);this.data = data; this.dataDisplay = data; 
     
 
@@ -493,7 +496,7 @@ getQuestionById(): void {
   }
 
   if(zw){
-    this.urlGetbyId = 'http://localhost:8090/frage/' + this.urlById;
+    this.urlGetbyId = 'https://meinformular.herokuapp.com/frage/' + this.urlById;
 
     this.api.getQuestionbyId(this.urlGetbyId).subscribe(dataOne => {console.log(dataOne);this.dataOne = dataOne;},err => {console.log(err);});
   
@@ -517,7 +520,7 @@ getFormType(): void{
   if(zw){
 
     this.formType = this.chosenFormType;
-    this.urlFormType = 'http://localhost:8090/type/' + this.formType;
+    this.urlFormType = 'https://meinformular.herokuapp.com/type/' + this.formType;
 
     this.api.getFormType(this.urlFormType).subscribe(data4 => {console.log(data4);this.data4 = data4;this.dataDisplay = data4;},err => {console.log(err);});
     
@@ -532,7 +535,7 @@ getCategory(): void{
 
     this.categoryCat = this.chosenCategoryCat; 
     console.log(this.chosenCategoryCat);
-    this.urlCategory = 'http://localhost:8090/category/' + this.categoryCat;
+    this.urlCategory = 'https://meinformular.herokuapp.com/category/' + this.categoryCat;
 
     this.api.getFormType(this.urlCategory).subscribe(data4 => {console.log(data4);this.data4 = data4;this.dataDisplay = data4;},err => {console.log(err);});
     
@@ -558,7 +561,7 @@ getAllQuestionsOfFormTypeWithinCategory(): void {
     if(this.chosenCategoryCat == "keine Kategorie"){
   
       this.formType = this.chosenFormTypeCat;
-      this.urlFormType = 'http://localhost:8090/type/' + this.formType;
+      this.urlFormType = 'https://meinformular.herokuapp.com/type/' + this.formType;
   
       this.api.getFormType(this.urlFormType).subscribe(data4 => {console.log(data4);this.data4 = data4;this.dataDisplay = data4;},err => {console.log(err);});
       
@@ -566,7 +569,7 @@ getAllQuestionsOfFormTypeWithinCategory(): void {
 
       this.formTypeCat = this.chosenFormTypeCat; 
       this.categoryCat = this.chosenCategoryCat; 
-      this.urlFormTypeCategory = 'http://localhost:8090/type/' + this.formTypeCat + '/category/' + this.categoryCat;
+      this.urlFormTypeCategory = 'https://meinformular.herokuapp.com/type/' + this.formTypeCat + '/category/' + this.categoryCat;
 
       this.api.getAllQuestionsOfFormTypeWithinCategory(this.urlFormTypeCategory).subscribe(data4 => {console.log(data4);this.data4 = data4;this.dataDisplay = data4;},err => {console.log(err);});
     }
@@ -592,7 +595,7 @@ editQuestionNextQuestionId(): void{
   this.question.questionCategory = this.categoryArray;//categoryZw;
 
   this.editId = this.question.id;
-  this.urlEditNext = 'http://localhost:8090/frage/' + this.editId + '/edit';
+  this.urlEditNext = 'https://meinformular.herokuapp.com/frage/' + this.editId + '/edit';
 
 
 
@@ -634,7 +637,8 @@ editQuestionNextQuestionId(): void{
   this.editOn = false;
   this.deleteOn = false;
 
-  location.reload();
+  setTimeout(window.location.reload.bind(window.location), 1250);
+ // location.reload();
   
 }
 
@@ -681,7 +685,7 @@ editQuestion(): void{
   this.question.questionCategory = this.categoryArray;//categoryZw;
 
   this.editId = this.question.id;
-  this.urlEdit = 'http://localhost:8090/frage/' + this.editId + '/edit';
+  this.urlEdit = 'https://meinformular.herokuapp.com/frage/' + this.editId + '/edit';
 
 // Die Objekte von den "GET"-Methoden werden gekürtzt (Id's werden gelöscht) für die Post/Put-methoden
     let dataShortChoices: ChoicesShort[] = [];
@@ -722,7 +726,9 @@ editQuestion(): void{
   this.editOn = false;
   this.deleteOn = false;
 
-  location.reload();
+
+  setTimeout(window.location.reload.bind(window.location), 1250);
+  //location.reload();
   
 }
 
@@ -745,8 +751,10 @@ editQuestion(): void{
   open2(content) { 
     this.modalService.open(content, {backdrop:'static', windowClass : "my-modal-for-edit"}).result.then((result) => {  // { size: 'lg', backdrop: 'static' }    { windowClass : "my-modal-for-editNext"}   {ariaLabelledBy: 'modal-basic-title'}
       this.closeResult = `Closed with: ${result}`;
+      console.log("Changes wurden gespeichert");
     }, (reason) => {
       this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+      console.log("Changes wurden gespeichert");
     });
   }
 
@@ -761,20 +769,25 @@ editQuestion(): void{
   }
 
 
-
+ 
 deleteQuestion(id: number): void{
+
+console.log("DIe Id lautet: " + id);
 
   if(id == -1){
 this.deleteIdQuestion = this.question.id;
   }else{
     this.deleteIdQuestion = id;
   }
-this.urlDelete = 'http://localhost:8090/frage/' + this.deleteIdQuestion + '/delete';
+
+
+this.urlDelete = 'https://meinformular.herokuapp.com/frage/' + this.deleteIdQuestion + '/delete';
 
 this.api.deleteQuestion(this.urlDelete, this.deleteIdQuestion).subscribe(data => {console.log(data);this.data = data; this.dataDisplay = data;
 
   this.dataSetCat = new Set<String>();
   this.dataSetCat.add("keine Kategorie")
+
   for(let u1 = 0; u1 < data.length; u1++){
     for(let u2 = 0; u2 < data[u1].questionCategories.length; u2++){
     this.dataSetCat.add(data[u1].questionCategories[u2].category);
@@ -783,6 +796,7 @@ this.api.deleteQuestion(this.urlDelete, this.deleteIdQuestion).subscribe(data =>
         this.showOnHover = [];
         this.dataSet =  new Set<String>();
         this.dataSet.add("Alle Fragen");
+
         for(let u = 0; u < data.length; u++){
           this.dataSet.add(data[u].formType);
           this.showOnHover.push(false);
@@ -795,7 +809,9 @@ this.deleteIdQuestion = -1;
 this.deleteOn = false;
 this.editOn = false;
 
-location.reload();
+setTimeout(window.location.reload.bind(window.location), 1250);
+
+//location.reload();
 
 }
 
