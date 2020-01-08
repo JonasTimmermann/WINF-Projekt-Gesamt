@@ -24,6 +24,8 @@ public class QuestionController {
 		return questionService.getAllQuestions();
 	}
 
+	
+	
 	// Get a specific Question by ID
 	@RequestMapping(path = "frage/{id}")
 	public Question getQuestionById(@PathVariable Integer id) {
@@ -43,7 +45,15 @@ public class QuestionController {
 
 		return questionService.getAllQuestionsOfFormTypeWithinCategory(formType, category);
 	}
-
+	
+	//get the starting question of formtype with specific category
+	@RequestMapping(path = "/type/{form_id}/category/{category_id}/findstart")
+	public Question getStartingQuestionOfFormTypeWithinCategory(@PathVariable Integer form_id,
+			@PathVariable Integer category_id) {
+				
+		return questionService.getStartingQuestionOfFormTypeWithinCategory(form_id, category_id);
+	}
+	
 	// Add a new Question
 	@RequestMapping(method = RequestMethod.POST, value = "frage/add")
 	public String saveQuestion(@RequestBody Question question) {

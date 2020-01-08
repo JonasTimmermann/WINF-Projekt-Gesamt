@@ -21,4 +21,9 @@ public class QuestionCategoryController {
 	public List<Question> getByCategory(@PathVariable String category) {
 		return questionCategoryService.getQuestionByCategory(category);
 	}
+	
+	@RequestMapping(path = "category/all")
+	public List<QuestionCategory> getAllCategories() {
+		return questionCategoryService.getAllCategories();
+	}
 }

@@ -14,8 +14,10 @@ import javax.persistence.OneToOne;
 import javax.validation.constraints.NotNull;
 import javax.persistence.JoinColumn;
 
+import com.example.gewerbeanmeldung.Answers.Answers;
 import com.example.gewerbeanmeldung.QuestionCategory.QuestionCategory;
 import com.example.gewerbeanmeldung.QuestionType.QuestionType;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 public class Question {
@@ -31,12 +33,21 @@ public class Question {
 	@OneToOne(cascade = CascadeType.ALL)
 	@MapsId
 	private QuestionType questionType;
+	
+	@NotNull
+	private boolean mandatory;
+	
+	private Integer lookbackId = 0;
 
+	@Column(length=1000)
 	private String hint;
 
+	private boolean start;
+	
 	@NotNull
 	private String formType;
 
+	
 	@NotNull
 	@ManyToMany(cascade = { CascadeType.ALL })
 	@JoinTable(name = "Question_Category_Relation", joinColumns = @JoinColumn(name = "question_id"), inverseJoinColumns = @JoinColumn(name = "category_id"))
@@ -98,4 +109,27 @@ public class Question {
 		this.formType = formType;
 	}
 
+	public boolean isMandatory() {
+		return mandatory;
+	}
+
+	public void setMandatory(boolean mandatory) {
+		this.mandatory = mandatory;
+	}
+
+	public Integer getLookbackId() {
+		return lookbackId;
+	}
+
+	public void setLookbackId(Integer lookbackId) {
+		this.lookbackId = lookbackId;
+	}
+
+	public boolean isStart() {
+		return start;
+	}
+
+	public void setStart(boolean start) {
+		this.start = start;
+	}
 }

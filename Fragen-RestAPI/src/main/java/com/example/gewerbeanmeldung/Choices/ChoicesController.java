@@ -2,6 +2,8 @@ package com.example.gewerbeanmeldung.Choices;
 
 import org.springframework.web.bind.annotation.*;
 
+
+
 @RestController
 @RequestMapping(path = "/choice")
 public class ChoicesController {

@@ -25,7 +25,10 @@ public class QuestionType {
 	@Column(name = "id")
 	private Integer id;
 
-	private Integer nextQuestionId = 0;
+	private Integer defaultWay = 0;
+	
+	//If useDefault == true, look for defaultway, else: we know, choices are existing
+	private boolean useDefault;
 	
 	@NotNull
 	private String type;
@@ -71,12 +74,20 @@ public class QuestionType {
 		this.choices = choices;
 	}
 
-	public Integer getNextQuestionId() {
-		return nextQuestionId;
+	public Integer getDefaultWay() {
+		return defaultWay;
 	}
 
-	public void setNextQuestionId(Integer nextQuestionId) {
-		this.nextQuestionId = nextQuestionId;
+	public void setDefaultWay(Integer defaultWay) {
+		this.defaultWay = defaultWay;
+	}
+
+	public boolean isUseDefault() {
+		return useDefault;
+	}
+
+	public void setUseDefault(boolean useDefault) {
+		this.useDefault = useDefault;
 	}
 
 }

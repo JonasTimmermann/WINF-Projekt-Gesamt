@@ -10,6 +10,8 @@ import com.example.gewerbeanmeldung.Choices.Choices;
 import com.example.gewerbeanmeldung.Choices.ChoicesService;
 import com.example.gewerbeanmeldung.QuestionCategory.QuestionCategory;
 import com.example.gewerbeanmeldung.QuestionCategory.QuestionCategoryService;
+import com.example.gewerbeanmeldung.form.Form;
+import com.example.gewerbeanmeldung.form.FormService;
 
 @Service
 public class QuestionService {
@@ -22,6 +24,9 @@ public class QuestionService {
 
 	@Autowired
 	private QuestionCategoryService questionCategoryService;
+	
+	@Autowired
+	private FormService formService;
 
 	// Lists all questions
 	public List<Question> getAllQuestions() {
@@ -41,7 +46,11 @@ public class QuestionService {
 	// Saves a Question
 	public String saveQuestion(Question question) {
 		try {			
+			//Save question
 			questionRepo.save(question);
+			//Add the formtype to form entity, if not existing
+			formService.addWhenNotExisting(question.getFormType());
+				
 		}catch(Exception e) {
 			if(question.getQuestion() == null) {
 				return "Your Question needs to have a Question Name";
@@ -88,11 +97,23 @@ public class QuestionService {
 
 		question.setId(id);
 		question.getQuestionType().setId(id);
+		
 		// Gets all old Data of the Question, which is going to be updated
 		Question q = getQuestionById(id);
 
-		if(question.getQuestionType().getNextQuestionId() == 0) {
-			question.getQuestionType().setNextQuestionId(q.getQuestionType().getNextQuestionId());
+		//Check if we need to edit the form and formtype
+		if(!(question.getFormType().equals(q.getFormType()))){
+			formService.editForm(question.getFormType(), q.getFormType());
+		}
+		
+		//Check if Lookback exists in already saved data, if yes, we need to add it
+		if(question.getLookbackId() == 0 && q.getLookbackId() != 0) {
+			question.setLookbackId(q.getLookbackId());
+		}
+		
+		//If no new default way was chosen, use the old existing one
+		if(question.getQuestionType().getDefaultWay() == 0) {
+			question.getQuestionType().setDefaultWay(q.getQuestionType().getDefaultWay());;
 		}
 		
 		// Sets all Ids of the old Choices from the Question to the probably
@@ -165,33 +186,58 @@ public class QuestionService {
 	// Updates the Question by putting the number for the next question on the right
 	// position
 	public String addFollowingQuestion(Integer id, Question question) {
-		// If different choices exists for a specific question, then set the next id to
-		// -1. So you know,
-		// you should look for the choice next-id
-		if (checkForNextQuestionIdPlace(question) && question.getQuestionType().getChoices() != null) {
-			return "You can't put in a value for nextQuestionId into " + "the QuestionType, because you "
-					+ "have different choices defined. You have to add the specific "
-					+ "next Question Id into each Choice ";
-		}
+		
+		//Check if the input is allowed or we face an invalid input
 		if (question.getQuestionType().getChoices() != null && question.getQuestionType().getChoices().size() > 1) {
 			for (int i = 0; i < question.getQuestionType().getChoices().size(); i++) {
 				if (!(question.getQuestionType().getChoices().get(i).getNextQuestionId() != 0)) {
 					return "You need to add a Following Question for every Choice!";
 				}
 			}
+			//If every existing choice has a NextId and choices exist, we wanna use the choices answer as 
+			//path for following question
+			question.getQuestionType().setUseDefault(false);
 		}
-		if (question.getQuestionType().getChoices() != null) {
-			question.getQuestionType().setNextQuestionId(-1);
+		
+		//Set useDefaultWay to true, if default way exists and no choices 
+		if(question.getQuestionType().getDefaultWay() != 0 && question.getQuestionType().getChoices() == null) {
+			question.getQuestionType().setUseDefault(true);
 		}
+		
 		this.editQuestion(question, id);
 		return "You added the following questions for this question sucessfully. Please note: if you have "
 				+ "any choices, the NextQuestionId of the QuestionType was set to -1";
 	}
-	public boolean checkForNextQuestionIdPlace(Question question) {
-		if(question.getQuestionType().getNextQuestionId() != 0 && question.getQuestionType().getNextQuestionId() != -1) {
-			return true;
-		}else { 
-			return false;
+	
+	//Returning if we have to choose default way or the way of a choice as next way after the answer
+	public boolean checkWhichWay(Question question) {
+		return question.getQuestionType().isUseDefault();
+	}
+	
+	
+	public boolean checkIfQuestionExists(Integer question_id) {
+		return questionRepo.existsById(question_id);
+	}
+	
+	public boolean existsQuestionByFormType(String formtype) {
+		return questionRepo.existsQuestionByFormType(formtype);
+	}
+
+	public Question getStartingQuestionOfFormTypeWithinCategory(Integer form_id, Integer category_id) {
+		String formType = formService.getFormById(form_id).getFormname();
+		String categoryType = questionCategoryService.getCategoryById(form_id).getCategory();
+		
+		List<Question> qList = getAllQuestionsOfFormTypeWithinCategory(formType, categoryType);
+		Question q = new Question();
+		int i = 0; 
+		while (i<qList.size()) {
+			if(qList.get(i).isStart()) {
+				q = qList.get(i);
+			}
+			i++;
 		}
+		return q;
 	}
 }
+
+
