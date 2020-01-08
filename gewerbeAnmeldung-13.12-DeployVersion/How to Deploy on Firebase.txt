@@ -1,0 +1,16 @@
+https://www.youtube.com/watch?v=kNEw8aP513E
+
+Firebase login
+
+ng build --prod (--> Dist Ordner wird erstellt)
+
+cd zu "Dist/gewerbeAnmeldung" 
+
+Firebase init hosting (erstellt public-Ordner)
+
+Alle dateien (bis auf firebase-Dateien) in den public Ordner packen
+
+
+in "Dist/gewerbeAnmeldung" Firebase deloy
+
+fertig
