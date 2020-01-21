@@ -1,0 +1,7 @@
+<form>
+    <div class="form-group" (mouseover)="updateNote()">
+        <label [for]="question.id" class="font-weight-bold">{{question.question}} <span  class="font-weight-lighter"  *ngIf="!question.mandatory">(Optional)</span></label>
+        <textarea class="form-control" [id]="question.id" rows="3" (change)="updateAnswer($event)"
+            [ngClass]="{'is-valid':status[0], 'is-invalid': status[1]}"></textarea>
+    </div>
+</form>

@@ -1,0 +1,18 @@
+Datenstruktur für Frage-Typen
+
+Text-Eingabe = "textInput" // Eine Zeile
+CheckBox = "checkBox" // Wahl von mehreren Antwortmöglichkeiten 
+DropDown-Menu = "dropDown" // Wahl von einer Alternative 
+Radio-Button = "radioButton" // Wahl von einer Alternative 
+Daten-Input = "datenInput" // Dateien hochzuladen 
+Datum-Eingabe = "datumEingabe"  //Angabe eines Datums
+Multi-Text-Eingabe = "multiTextInput" // Mehrere Zeilen Text-Input 
+
+Daten für die Formulare 
+
+Gewerbeanmeldung = "Gewerbeanmeldung"
+Veranstaltungsanmeldung = "Veranstaltungsanmeldung"
+
+Daten für die Kategorien 
+
+Veranstaltung in öffentlichen Grünlagen = "veranstaltungInÖffentlichenGrünlagen"

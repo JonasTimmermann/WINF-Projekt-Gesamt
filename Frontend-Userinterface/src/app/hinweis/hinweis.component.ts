@@ -1,4 +1,5 @@
 import { Component, OnInit, Input, ViewChild, ElementRef } from '@angular/core';
+import { HinweisAnzeigeService } from './hinweis-anzeige.service';
 
 @Component({
   selector: 'app-hinweis',
@@ -6,12 +7,20 @@ import { Component, OnInit, Input, ViewChild, ElementRef } from '@angular/core';
   styleUrls: ['./hinweis.component.css']
 })
 export class HinweisComponent implements OnInit {
-  @Input() note: String;
+  displayedHint: string;
+  isMandatory: boolean;
   @ViewChild('bodyVonHinweis', null) body: ElementRef;
 
-  constructor() { }
+  constructor(private noteService: HinweisAnzeigeService) { }
 
   ngOnInit() {
+    this.noteService.selectedQuestion.subscribe((hint: string) => {
+      this.displayedHint = hint;
+    })
+
+    this.noteService.selectedQuestionIsMandatory.subscribe((decision: boolean) => {
+       this.isMandatory = decision; 
+      })
   }
 
   onMove() {

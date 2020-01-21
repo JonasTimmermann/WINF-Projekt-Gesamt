@@ -1,0 +1,17 @@
+<div class="form-group" (mouseover)="updateNote()">
+<label for="question.id" class="font-weight-bold" >{{question.question}} <span  class="font-weight-lighter"  *ngIf="!question.mandatory">(Optional)</span></label>
+    <div [id]="question.id" class="input-group date" data-target-input="nearest" NgTempusdominusBootstrap NgTempusdominusBootstrapToggle>
+        <input
+          [ngClass]="{'is-valid':status[0], 'is-invalid': status[1]}"
+          class="form-control"
+          [(ngModel)]="date"
+          [options]="startOption"
+          NgTempusdominusBootstrapInput
+          type="text"
+          (change)="getAnswer()"
+        />
+        <div class="input-group-append" NgTempusdominusBootstrapToggle>
+            <div class="input-group-text"><i class="far fa-calendar-alt" aria-hidden="true"></i>
+            </div>
+        </div>
+    </div>

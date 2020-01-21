@@ -5,7 +5,7 @@
                 <label for="FormularChoice" class="font-weight-bold">Was möchten Sie beantragen ?</label>
                 <select class="form-control" id="FormularChoice" (change)="formularIsSelected($event)" required>
                     <option selected disabled value="">------Wähle--------</option>
-                    <option *ngFor="let formular of formulare" [value]="formular.value">{{formular.anzeige}}</option>
+                    <option *ngFor="let formular of formulare" [value]="formular">{{formular}}</option>
                 </select>
             </div>
             <!-- Hier wird ein Kopf hinzugefügt, um neue Elemente hinzuzufügen. -->
@@ -17,7 +17,7 @@
         <div class="row">
             <div class="col">
                 <!-- Hier wird Gefragt was genommen werden soll -->
-                <app-frage-icon [formular]="choosedFormular" (iconClicked)="selectedIcon($event)"></app-frage-icon>
+                <app-frage-category [categories]="this.categories" (selectedCategory)="selectedCategory($event)"></app-frage-category>
             </div>
         </div>
         <hr>
@@ -27,13 +27,15 @@
                 <div class="col">
                     <div class="card bg-light">
                         <div class="card-body">
-                            <!-- Hier ist das Kontaktformular-->
-                            <app-frage-kontaktformular></app-frage-kontaktformular>
+                            <!-- Hier ist das Kontaktformular
+                            <div class="col">
+                                <app-frage-kontaktformular></app-frage-kontaktformular>
+                            </div>
+                        -->
                             <!-- Dies wird der Listeninhalt -->
-                            <div *ngFor="let question of questions">
-                                <!-- Nur fragen des Formulares-->
-                                <app-frage-list-item *ngIf="choosedFormular == question.kategorie" [question]="question"
-                                    (AnswerEvent)="AnswerEvent.emit($event)" (NoteEvent)="NoteEvent.emit($event)">
+                            <div class="col" *ngFor="let question of displayingQuestions">
+                                <!-- Nur Fragen des Formulares-->
+                                <app-frage-list-item [question]="question" (AnswerEvent)="AnswerEvent.emit($event)">
                                 </app-frage-list-item>
                             </div>
                         </div>
@@ -49,25 +51,10 @@
                 </div>
                 <div class="col-3 offset-1">
                     <button class="btn btn-primary btn-block" [ngClass]="{'disabled' : isChecked}"
-                        [ngStyle]="{'cursor': pointerSubmit}">
+                        [ngStyle]="{'cursor': pointerSubmit}" (click)="sendToServer()">
                         Abschicken
                     </button>
                 </div>
-                <!--
-                <div class="col-3 offset-1">
-                    <button class="btn btn-danger btn-block">
-                        Zurücksetzen
-                    </button>
-                </div>
-                -->
-                <!-- Ein kleines Alert ob es funktioniert oder nicht
-                    <div class="alert alert-success" role="alert">
-  <h4 class="alert-heading">Well done!</h4>
-  <p>Aww yeah, you successfully read this important alert message. This example text is going to run a bit longer so that you can see how spacing within an alert works with this kind of content.</p>
-  <hr>
-  <p class="mb-0">Whenever you need to, be sure to use margin utilities to keep things nice and tidy.</p>
-</div>
-                -->
             </div>
         </div>
     </div>

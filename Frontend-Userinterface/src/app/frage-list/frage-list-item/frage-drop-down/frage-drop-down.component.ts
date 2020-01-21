@@ -1,38 +1,70 @@
 import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
-import { FrageInterface } from '../../frage.model';
+import { QuestionInterface, Question } from '../../frage.model';
+import { HinweisAnzeigeService } from 'src/app/hinweis/hinweis-anzeige.service';
+import { AnswerButtonService } from '../../answer-button.service';
+import { AnswerToServerService } from '../../answer-to-server.service';
 
 @Component({
   selector: 'app-frage-drop-down',
   templateUrl: './frage-drop-down.component.html',
   styles: []
 })
-export class FrageDropDownComponent implements OnInit, FrageInterface {
+export class FrageDropDownComponent implements OnInit, QuestionInterface {
+  answerJSON = {
+		dateanswer: null,
+		fileanswer: null,
+		question_id: null,
+    aoa: []};
   @Output() AnswerEvent: EventEmitter<String> = new EventEmitter<String>();
-  @Output() NoteEvent: EventEmitter<String> = new EventEmitter<String>(); 
   status: boolean[] = [false, false];
-  @Input() header: String; 
-  @Input() possibleAnswer: String[]; 
+  @Input() question: Question; 
   selectedAnswer: String; 
-  @Input() note: String  = "Test DropDown Hinweis"; 
   
-  constructor() { }
+  constructor(private noteService: HinweisAnzeigeService,
+    private answerService: AnswerButtonService,
+    private answerToServer: AnswerToServerService) { }
 
   ngOnInit() {
   }
 
   
   updateNote(){
-    this.NoteEvent.emit(this.note); 
+    this.noteService.selectedQuestion.emit(this.question.hint); 
+    this.noteService.selectedQuestionIsMandatory.emit(this.question.mandatory); 
   }
   
   getAnswer(){
+    let mandatory = this.question.mandatory; 
     if(this.checkAnswer()){
+      this.selectedAnswer = (<HTMLInputElement>event.target).value; 
+      if(this.question.isValid != null && !this.question.isValid){
+        this.answerService.signOut(this.question);
+      }
+      this.question.isValid = true; 
       this.AnswerEvent.emit(this.selectedAnswer); 
-    }else{
+    }else if(!mandatory){
+      this.status[0] = true;
+      this.status[1] = false;
+      if(this.question.isValid != null && !this.question.isValid){
+        this.answerService.signOut(this.question);
+      }
+      this.question.isValid = true; 
+
+      this.AnswerEvent.emit(null);
+    }  else{
+      this.answerService.signIn(this.question); 
+      this.question.isValid = false; 
       // throw new Error("Method not implemented.");
       this.AnswerEvent.emit(null); 
 
     }
+  }
+  sendToServer(){
+    let answer = { answer: this.selectedAnswer}; 
+    this.answerJSON.question_id = this.question.id; 
+    this.answerJSON.aoa = []
+    this.answerJSON.aoa.push(answer); 
+    this.answerToServer.addAnswer(this.question.id,JSON.stringify(this.answerJSON)); 
   }
   checkAnswer(): boolean {
     if(this.selectedAnswer == null){
@@ -47,7 +79,7 @@ export class FrageDropDownComponent implements OnInit, FrageInterface {
   }
 
   putAnswer(event: Event){
-    this.selectedAnswer = (<HTMLInputElement>event.target).value; 
+    
   }
 
 }

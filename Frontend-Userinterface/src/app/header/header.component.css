@@ -1,0 +1,93 @@
+.logo{
+    max-width: 288px;
+    height: auto;
+    width: auto;
+    vertical-align: middle;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    font: inherit;
+    box-sizing: inherit;
+    color: inherit;
+}
+
+
+.headerZeile{
+    padding: 80px 116px 40px;
+    position: relative;
+    z-index: 5;
+    max-width: 1500px;
+    margin: 0 auto;
+    border: 0;
+    font: inherit;
+    display: block;
+    box-sizing: inherit;
+}
+
+.logoGrid{
+    max-width: none;
+    float: left;
+    width: 50%;
+    padding-right: 12px;
+    padding-left: 12px;
+    border: 0;
+    font: inherit;
+    vertical-align: baseline;
+    margin: 0;
+    padding: 0;
+    box-sizing: inherit;
+}
+
+.Base-input{
+    font-weight: 400;
+    font: inherit;
+    color: #000;
+    line-height: 1;
+    padding: 15px;
+    box-sizing: border-box;
+    -webkit-box-shadow: inset 1px 2px 3px 0 rgba(0,0,0,.2);
+    box-shadow: inset 1px 2px 3px 0 rgba(0,0,0,.2);
+    border: 1px solid #DADEE1;
+    border-radius: 0;
+    min-height: 2em;
+    overflow: hidden;
+    font-family: 'FS Elliot Web',sans-serif;
+    font-size-adjust: auto;
+    font-size: 1em;
+    width: 100%;
+    background-color: #ECEEEF;
+    -webkit-appearance: none;
+    outline: 0;
+    outline-offset: -2px;
+    margin: 0;
+}
+
+.Base-label{
+    font-family: 'FS Elliot Web',sans-serif;
+    font-size-adjust: auto;
+    font-size: 1em;
+}
+
+.Searchbar-submit{
+    border: none;
+    padding: 8px 8px 7px;
+    margin: 0;
+    background-color: #D62F87;
+    cursor: pointer;
+    outline: 0;
+}
+
+
+.Searchbar-input-grid{
+    display: table-cell;
+    width: 100%;
+}
+
+.Searchbar-submit-grid{
+    display: table-cell;
+    width: 100%;
+}
+
+.Searchbar-submitIcon{
+    fill: #FFF;
+}

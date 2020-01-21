@@ -1,0 +1,58 @@
+.Base-h1 {
+  font-size: 3em;
+  font-weight: 800;
+  line-height: 1;
+  display: block;
+  font-family: "FS Elliot Web", sans-serif !important;
+  font-size-adjust: auto;
+  margin-bottom: 1.5em;
+  text-rendering: optimizeLegibility;
+  box-sizing: inherit;
+}
+em {
+  font-weight: 300;
+}
+.Breadcrumb-arrow,
+.Breadcrumb-link {
+  display: inline-block;
+  margin-right: 0.5em;
+}
+
+.breadcrumb-lauk {
+  font-size: 0.875em;
+  display: block;
+  padding-top: 1em;
+  transition: color 0.25s ease;
+  position: relative !important;
+  margin-bottom: 7em;
+  font-weight: 400;
+  font-family: "FS Elliot Web", sans-serif;
+}
+
+.breadcrumb-arrow {
+  color: #009ee0;
+  font-size: 1.125em;
+  display: inline-block;
+  margin-right: 0.5em;
+  margin: 0;
+  margin-right: 0px;
+  padding: 0;
+  border: 0;
+  font: inherit;
+  font-size: inherit;
+  vertical-align: baseline;
+  box-sizing: inherit;
+}
+
+.breadcrumb-link {
+  transition: color 0.25s ease;
+  outline: 0;
+  display: inline-block;
+  margin-right: 0.5em;
+  margin: 0;
+  margin-right: 0px;
+  padding: 0;
+  border: 0;
+  font: inherit;
+  vertical-align: baseline;
+}

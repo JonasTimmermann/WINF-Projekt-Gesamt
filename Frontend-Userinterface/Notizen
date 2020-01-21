@@ -1,0 +1,44 @@
+Suchen bei anderne Ämter nach einer emthode um die 
+Datennutzungserlaubnis zu erheben.
+
+ZU NextId 
+Man könnte mit NextId immer auf die Nächste Frage zeigen, die im Inhalt als nächstes folgt
+Dann zeigt der NextID im Choices Att. auf die Frage die Folgt wenn diese Antwort 
+gewählt wurde. Dadurch dass bei mancehn -1 steht kann ich nicht auf die Nächste Frage zeigen, 
+sondern muss gucken was gewählt wurde. 
+
+Also Anzeigen
+Mom besitze ich eine Map wo alle Fragen drin sind mit der ID. Ich könnte noch eine Map machen 
+der als Key FormularType und CategoryTyp bekommt. Dann bekomme ich als Antwort ein Array mit (IDs oder
+gleich die Questions selbst) die ich dann abbilde und einfach durchlaufe. Je nachdem ob beim Question
+eine 
+
+
+CategoryType und Formulartype muss von dem Server als Inhalt kommen und von mir 
+init werden. 
+
+AnswerButton zum Checken wie mach ich es: 
+Also jede Frage besitzt eine Variable "isValid", die anzeigt,
+ob der Inhalt einer Frage valide ist oder nicht. Es gibt einen Service der ein AnswerEvent hat. 
+Fällt dieser auf True so weiß der Sende button, dass er senden darf und wird von disable zu 
+enable. Wie checke ich nun, ob alle Fragen auf True sind? Jede Frage die False ist geht in eine
+Query, die alle falseQuestion anzeigt. Raus kann er kommen, wenn er sich abmeldet beim Service. 
+Nun ist das Problem, aber dass ich erkennen muss welche Frage false ist und dann auf wahr geht
+oder von wahr auf false geht. Eine Möglichkeit wäre beim checken der Frage, wenn der Status auf 
+False wechselt meldet sich die Frage automatisch an. Ist bei der Nächste Prüfung der Inhalt valide
+und der Status voher auf False gewesen, dann heißt es, ich muss mich abmelden beim Service. 
+Wechselt der Status von valide auf nicht valide so passiert das gleiche Prozedere wie beim ganz 
+normalen False eintritt (anmelden und isValid auf False setzen). 
+
+Nun gibt es im Service ein Problem, der Anfangs Init. Das löse ich so, der erste Wert ist null. Das 
+bedeutet, dass eine Prüfung noch nicht passiert ist. Sollte nach der Prüfung der Wert null, immernoch
+vorhanden sein, bedeutet das dass es keinen Fehler gab beim Prüfen. Sollte der Auf false landen, 
+dann gabs einen Fehler Question und die Map ist nicht leer. 
+
+
+Wie soll mein Service mit den Antworten arbeiten? 
+Es gibt ein Service der alle Antworten einer Frage sammelt bei sich und sobald der Absende button
+gedrückt wurde, den Inhalt absendet. Sobald die Prüfung durch ist und der Absendebutton nicht mehr
+ausgegraut ist und der Button gedrückt wird, wird ein Signal ausgesendet und alle Fragen pushen
+ihren Inhalt an den Service. Dieser sendet dann die Antworten an den Server. Wenns klappt dann ein
+PopUp. Um es zu lösen könnte man den Service einbinden und sobald 

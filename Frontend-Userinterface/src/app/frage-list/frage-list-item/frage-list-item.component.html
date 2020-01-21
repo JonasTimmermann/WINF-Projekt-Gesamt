@@ -1,14 +1,28 @@
 <div style="padding: 5px 0 5px 0;">
-        <!-- Oder Formular für Unternehmen. -->
-        <app-frage-text-input *ngIf="question.typ == questionTypes.text" [note]="question.note"
-                [header]="question.frage" [type]="'text'" (AnswerEvent)="AnswerEvent.emit($event)"
-                (NoteEvent)="this.NoteEvent.emit($event)"></app-frage-text-input>
-        <app-frage-drop-down *ngIf="question.typ == questionTypes.dropDown" [note]="question.note"
-                [header]="question.frage" [possibleAnswer]="question.antworten" (AnswerEvent)="AnswerEvent.emit($event)"
-                (NoteEvent)="NoteEvent.emit($event)"> </app-frage-drop-down>
-        <app-frage-check-box *ngIf="question.typ == questionTypes.checkBox" [note]="question.note"
-                [header]="question.frage" [possibleAnswer]="question.antworten" (AnswerEvent)="AnswerEvent.emit($event)"
-                (NoteEvent)="NoteEvent.emit($event)"> </app-frage-check-box>
-        <app-frage-data-input *ngIf="question.typ == questionTypes.dataInput" [note]="question.note"
-                [header]="question.frage" (NoteEvent)="NoteEvent.emit($event)"></app-frage-data-input>
+        <!-- Die Hauptfrage -->
+        <app-frage-text-input *ngIf="question?.type == questionTypes.text" [question]="question"
+                (AnswerEvent)="AnswerEvent.emit($event)"></app-frage-text-input>
+
+        <app-frage-drop-down *ngIf="question?.type == questionTypes.dropDown" [question]="question"
+                (AnswerEvent)="AnswerEvent.emit($event)"> </app-frage-drop-down>
+
+        <app-frage-check-box *ngIf="question?.type == questionTypes.checkBox" [question]="question"
+                (AnswerEvent)="AnswerEvent.emit($event)"> </app-frage-check-box>
+
+        <app-frage-data-input *ngIf="question?.type == questionTypes.dataInput" [question]="question">
+        </app-frage-data-input>
+
+        <app-frage-radio-button *ngIf="question?.type == questionTypes.radioButton" [question]="question"
+                (AnswerEvent)="AnswerEvent.emit($event)"></app-frage-radio-button>
+
+        <app-frage-multi-text-input *ngIf="question?.type == questionTypes.multipleTextInput" [question]="question"
+                (AnswerEvent)="AnswerEvent.emit($event)"></app-frage-multi-text-input>
+
+        <app-frage-datum-picker *ngIf="question?.type == questionTypes.datePicker" [question]="question"
+        (AnswerEvent)="AnswerEvent.emit($event)"></app-frage-datum-picker>
+        <!-- Die Subfragen. Erzeug ein neues Frage-List-Item und dann per Rekusion. -->
+        <div *ngFor="let subQuestion of subQuestions">
+                <app-frage-list-item [question]="subQuestion"></app-frage-list-item>
+        </div>
+
 </div>

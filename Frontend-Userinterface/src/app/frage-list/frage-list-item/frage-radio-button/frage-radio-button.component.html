@@ -1,0 +1,16 @@
+<div (mouseover)="updateNote()">
+<div class="form-row">
+  <div class="col">
+    <label class="font-weight-bold">{{question.question}}<span  class="font-weight-lighter"  *ngIf="!question.mandatory">(Optional)</span></label>
+  </div>
+</div>
+<div class="form-row">
+  <div class="col" #divRadiobutton>
+    <div class="form-check form-check-inline" *ngFor="let answerObj of question.answer; let i=index">
+      <input class="form-check-input" type="radio" [name]="question.question" id="{{question.id +' id:'+i}}" [value]="answerObj.answer"
+      [ngClass]="{'is-valid':status[0], 'is-invalid': status[1]}" (change)="getAnswer()">
+      <label class="form-check-label" for="{{question.id +' id:'+i}}" >{{answerObj.answer}}</label>
+    </div>
+  </div>
+</div>
+</div>
