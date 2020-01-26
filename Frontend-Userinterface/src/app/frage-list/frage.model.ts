@@ -238,6 +238,8 @@ export interface QuestionInterface {
  * TODO Benutz JSON.String um zu erkennen ob ein Key schon drin ist. 
  */
 export class MapByTypeAndCategory {
+    private mapOfCategoryByForm: Map<number,number[]> = new Map<number,number[]>(); 
+    private mapOfFormByCategory: Map<number,number[]> = new Map<number,number[]>(); 
     private map = new Map<string, Question[]>();
     private keys: { formularType: string, category: string }[] = [];
     constructor() { }
@@ -272,6 +274,22 @@ export class MapByTypeAndCategory {
         return found;
     }
 
+    add(formId:number,category:number){
+        if(!this.mapOfCategoryByForm.has(formId)){
+            this.mapOfCategoryByForm.set(formId,[]); 
+        }
+        let arr = this.mapOfCategoryByForm.get(formId); 
+        if(arr.indexOf(category,0) == -1){
+            arr.push(category);
+            console.log("Die FormId lautet", formId)
+            console.log("Es wurde was hinzugefügt", arr ); 
+            this.mapOfCategoryByForm.set(formId, arr); 
+        }
+    }
+
+    getIdforFormtype(formId:number): number[]{
+        return this.mapOfCategoryByForm.get(formId);  
+    }
 }
 
 export class MapById {
@@ -285,10 +303,17 @@ export class MapById {
         return this.map.get(questionId);
     }
 }
-/**
- * Eine Klasse, die als Key für das Array genommen wird um auf die Liste an fragen anzuzeigen
- * TODO finde heraus wie du die gleichheitsfuntkion änderst
- */
-export class KeybyType {
 
+/**
+ * TODO Es muss eine Klasse implementiert werden, die abcheckt welche Category zu welcher Klasse gehört
+ */
+export class MapOfCategoryByFormtype {
+    private mapOfCategoryByForm: Map<number,number> = new Map<number,number>(); 
+    private mapOfFormByCategory: Map<number,number> = new Map<number,number>(); 
+
+    constructor(){}
+
+    add(){
+
+    }
 }

@@ -16,7 +16,7 @@ export class FrageDatumPickerComponent implements OnInit, QuestionInterface, Aft
 		fileanswer: null,
 		question_id: null,
     aoa: []};
-  @ViewChild('dateElement', null) dateDiv: ElementRef;
+  @ViewChild('datePicker', null) dateDiv: ElementRef;
   AnswerEvent: EventEmitter<string> = new EventEmitter<string>();
   status: boolean[] = [false, false];
   @Input() question: Question
@@ -25,7 +25,7 @@ export class FrageDatumPickerComponent implements OnInit, QuestionInterface, Aft
   
   startOption = {
     locale: moment.locale('de'),
-      format:'DD/MM/YYYY HH:mm',
+      format:'DD/MM/YYYY HH:mm U\hr',
       minDate: moment(),
       icons: {
         time: 'far fa-clock',
@@ -56,6 +56,7 @@ export class FrageDatumPickerComponent implements OnInit, QuestionInterface, Aft
   }
 
   ngAfterViewInit() {
+    //this.dateDiv.nativeElement.addEventListener('input',this.getAnswer()); 
   }
 
   getAnswer() {
@@ -89,7 +90,8 @@ export class FrageDatumPickerComponent implements OnInit, QuestionInterface, Aft
     }
   }
   sendToServer(){
-    this.answerJSON.dateanswer = this.selectedDate; 
+    this.answerJSON.aoa = [{answer: this.dateDiv.nativeElement.value}]; 
+    this.answerJSON.dateanswer = this.date._d; 
     this.answerJSON.question_id = this.question.id; 
     this.answerToServer.addAnswer(this.question.id,JSON.stringify(this.answerJSON)); 
   }
@@ -100,7 +102,7 @@ export class FrageDatumPickerComponent implements OnInit, QuestionInterface, Aft
     }
 
     if(this.date._isValid){
-      this.selectedDate = this.date._d; 
+      this.selectedDate = this.dateDiv.nativeElement.value; 
       return true;
     }else{
       return false; 

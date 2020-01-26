@@ -29,7 +29,7 @@ False wechselt meldet sich die Frage automatisch an. Ist bei der Nächste Prüfu
 und der Status voher auf False gewesen, dann heißt es, ich muss mich abmelden beim Service. 
 Wechselt der Status von valide auf nicht valide so passiert das gleiche Prozedere wie beim ganz 
 normalen False eintritt (anmelden und isValid auf False setzen). 
-
+<br> <br>
 Nun gibt es im Service ein Problem, der Anfangs Init. Das löse ich so, der erste Wert ist null. Das 
 bedeutet, dass eine Prüfung noch nicht passiert ist. Sollte nach der Prüfung der Wert null, immernoch
 vorhanden sein, bedeutet das dass es keinen Fehler gab beim Prüfen. Sollte der Auf false landen, 
@@ -42,3 +42,5 @@ gedrückt wurde, den Inhalt absendet. Sobald die Prüfung durch ist und der Abse
 ausgegraut ist und der Button gedrückt wird, wird ein Signal ausgesendet und alle Fragen pushen
 ihren Inhalt an den Service. Dieser sendet dann die Antworten an den Server. Wenns klappt dann ein
 PopUp. Um es zu lösen könnte man den Service einbinden und sobald 
+
+Text

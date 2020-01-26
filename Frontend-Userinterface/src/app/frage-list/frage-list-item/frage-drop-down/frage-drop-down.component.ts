@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
+import { Component, OnInit, Input, EventEmitter, Output, ElementRef, ViewChild } from '@angular/core';
 import { QuestionInterface, Question } from '../../frage.model';
 import { HinweisAnzeigeService } from 'src/app/hinweis/hinweis-anzeige.service';
 import { AnswerButtonService } from '../../answer-button.service';
@@ -15,6 +15,7 @@ export class FrageDropDownComponent implements OnInit, QuestionInterface {
 		fileanswer: null,
 		question_id: null,
     aoa: []};
+  @ViewChild('selector',null) selector: ElementRef; 
   @Output() AnswerEvent: EventEmitter<String> = new EventEmitter<String>();
   status: boolean[] = [false, false];
   @Input() question: Question; 
@@ -35,8 +36,8 @@ export class FrageDropDownComponent implements OnInit, QuestionInterface {
   
   getAnswer(){
     let mandatory = this.question.mandatory; 
-    if(this.checkAnswer()){
-      this.selectedAnswer = (<HTMLInputElement>event.target).value; 
+    this.selectedAnswer = (<HTMLInputElement>event.target).value;
+    if(this.checkAnswer()){ 
       if(this.question.isValid != null && !this.question.isValid){
         this.answerService.signOut(this.question);
       }
@@ -67,7 +68,8 @@ export class FrageDropDownComponent implements OnInit, QuestionInterface {
     this.answerToServer.addAnswer(this.question.id,JSON.stringify(this.answerJSON)); 
   }
   checkAnswer(): boolean {
-    if(this.selectedAnswer == null){
+    this.selectedAnswer = this.selector.nativeElement.value; 
+    if(this.selectedAnswer == ""){
       this.status[0] = false;
       this.status[1] = true; 
       return false; 

@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, ViewChild, ElementRef } from '@angular/core';
 import { CategoryType } from "../frage.model";
 
 @Component({
@@ -9,6 +9,7 @@ import { CategoryType } from "../frage.model";
 export class FrageCategroyComponent implements OnInit {
   @Input() categories: string[]; 
   @Output() selectedCategory = new EventEmitter<string>(); 
+  @ViewChild('selectOption',null) selectOption: ElementRef; 
 
   constructor(private categoryService: CategoryType) { 
   }
@@ -19,6 +20,10 @@ export class FrageCategroyComponent implements OnInit {
   selectAnswer(event: Event){
     let value = (<HTMLInputElement> event.target).value; 
     this.selectedCategory.emit(value); 
+  }
+
+  setToDefault(){
+    this.selectOption.nativeElement.selectedIndex = 0; 
   }
 
 

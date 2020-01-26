@@ -1,8 +1,8 @@
-<form >
-  <div class="row form-group" (mouseover)="updateNote()">
+
+  <div class="row" (mouseover)="updateNote()">
     <div class="col-12">
       <label [for]="question.id" class="font-weight-bold">{{question.question}} <span  class="font-weight-lighter"  *ngIf="!question.mandatory">(Optional)</span></label>
-      <select class="form-control" [id]="question.id" [ngClass]="{'is-valid':status[0], 'is-invalid': status[1]}"
+      <select #selector class="form-control" [id]="question.id" [ngClass]="{'is-valid':status[0], 'is-invalid': status[1]}"
         (change)="getAnswer()">
         <!-- muss mit ngFor gemacht werden -->
         <option value="" disabled>------- Choose -------</option>
@@ -10,4 +10,3 @@
       </select>
     </div>
   </div>
-</form>

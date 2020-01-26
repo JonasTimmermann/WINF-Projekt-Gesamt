@@ -1,7 +1,7 @@
 <div class="row">
     <div class="col">
-        <label for="selectedCategory" class="font-weight-bold"> Welche Formular brauchen Sie ?</label>
-        <select class="form-control" id="selectedCategory" (change)="selectAnswer($event)">
+        <label for="selectedCategory" class="font-weight-bold"> Welches Formular benötigen Sie?</label>
+        <select #selectOption class="form-control" id="selectedCategory" (change)="selectAnswer($event)">
           <!-- muss mit ngFor gemacht werden -->
           <option value="" disabled>------- Wähle -------</option>
           <option *ngFor="let category of categories" [value]="category">{{category}}</option>

@@ -14,15 +14,19 @@
         </div>
     </div>
 </div>
+<div class="scrollbar scrollbar-primary">
+  <div class="force-overflow"></div>
+</div>
 -->
 <div #bodyVonHinweis>
-        <div class="card bg-light">
-            <div class="card-title">
-                <h3 class="border-bottom text-secondary">
-                    Hinweis</h3>
-            </div>
-            <div class="card-body">
-                <p class="lead">{{displayedHint}}</p>
-            </div>
+    <div class="card bg-light">
+        <div class="card-title">
+            <h3 class="border-bottom text-secondary">
+                Hinweis</h3>
         </div>
+                <div class="card-body" style="min-height: 20vh; max-height: 70vh; overflow: hidden;" >
+
+                    <p class="lead" [innerHTML]="displayedHint"></p>
+                </div>
+    </div>
 </div>

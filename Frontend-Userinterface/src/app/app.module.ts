@@ -26,6 +26,7 @@ import { FrageDatumPickerComponent } from './frage-list/frage-list-item/frage-da
 import { AntragtextService } from './body-upper-part/antragtext.service';
 import { LoadingScreenComponent } from './loading-screen/loading-screen.component';
 import { ShowLoadingScreenService } from './loading-screen/show-loading-screen.service';
+import { FrageDatenschutzComponent } from './frage-list/frage-datenschutz/frage-datenschutz.component';
 
 @NgModule({
   declarations: [
@@ -46,6 +47,7 @@ import { ShowLoadingScreenService } from './loading-screen/show-loading-screen.s
     FrageMultiTextInputComponent,
     FrageDatumPickerComponent,
     LoadingScreenComponent,
+    FrageDatenschutzComponent,
   ],
   imports: [
     BrowserModule,

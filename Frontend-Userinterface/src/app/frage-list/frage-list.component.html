@@ -2,7 +2,7 @@
     <div class="row">
         <div class="col">
             <div class="form-group">
-                <label for="FormularChoice" class="font-weight-bold">Was möchten Sie beantragen ?</label>
+                <label for="FormularChoice" class="font-weight-bold">Was möchten Sie beantragen?</label>
                 <select class="form-control" id="FormularChoice" (change)="formularIsSelected($event)" required>
                     <option selected disabled value="">------Wähle--------</option>
                     <option *ngFor="let formular of formulare" [value]="formular">{{formular}}</option>
@@ -17,7 +17,7 @@
         <div class="row">
             <div class="col">
                 <!-- Hier wird Gefragt was genommen werden soll -->
-                <app-frage-category [categories]="this.categories" (selectedCategory)="selectedCategory($event)"></app-frage-category>
+                <app-frage-category #categoryComponent [categories]="this.categories" (selectedCategory)="selectedCategory($event)"></app-frage-category>
             </div>
         </div>
         <hr>
@@ -38,6 +38,10 @@
                                 <app-frage-list-item [question]="question" (AnswerEvent)="AnswerEvent.emit($event)">
                                 </app-frage-list-item>
                             </div>
+                            <!-- Nur Provisorisch -->
+                            <div class="col">
+                            <app-frage-datenschutz></app-frage-datenschutz>
+                        </div>
                         </div>
                     </div>
                 </div>
@@ -50,7 +54,7 @@
                     </button>
                 </div>
                 <div class="col-3 offset-1">
-                    <button class="btn btn-primary btn-block" [ngClass]="{'disabled' : isChecked}"
+                    <button class="btn btn-primary btn-block" [ngClass]="{'disabled' : isButtonDisabled}"
                         [ngStyle]="{'cursor': pointerSubmit}" (click)="sendToServer()">
                         Abschicken
                     </button>

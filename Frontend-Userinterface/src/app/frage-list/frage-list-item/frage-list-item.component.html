@@ -1,4 +1,4 @@
-<div style="padding: 5px 0 5px 0;">
+<div class="form-group" style="padding: 5px 0 0 0;">
         <!-- Die Hauptfrage -->
         <app-frage-text-input *ngIf="question?.type == questionTypes.text" [question]="question"
                 (AnswerEvent)="AnswerEvent.emit($event)"></app-frage-text-input>

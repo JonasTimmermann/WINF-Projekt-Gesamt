@@ -1,9 +1,8 @@
-<form>
-    <div class="form-group" (mouseover)="updateNote()">
+
+    <div (mouseover)="updateNote()">
         <label [for]="question.id" class="font-weight-bold">{{question.question}} <span  class="font-weight-lighter"  *ngIf="!question.mandatory">(Optional)</span></label>
-        <input #inputField type="file" class="form-control-file" [ngClass]="{'is-valid':status[0], 'is-invalid': status[1]}" [id]="question.id" (change)="getAnswer()" >
+        <input #inputField type="file" class="form-control-file" [ngClass]="{'is-valid':status[0], 'is-invalid': status[1]}" [id]="question.id" (change)="getAnswer()" accept=".pdf,.png,.jepg">
     </div>
     <div>
         
     </div>
-</form>

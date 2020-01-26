@@ -8,7 +8,6 @@ import { FrageRadioButtonComponent } from './frage-radio-button/frage-radio-butt
 import { FrageMultiTextInputComponent } from './frage-multi-text-input/frage-multi-text-input.component';
 import { FrageDatumPickerComponent } from './frage-datum-picker/frage-datum-picker.component';
 import { AnswerToServerService } from '../answer-to-server.service';
-import { throwError } from 'rxjs';
 import { AnswerButtonService } from '../answer-button.service';
 
 @Component({
@@ -169,6 +168,12 @@ export class FrageListItemComponent implements AfterViewInit {
         break;
       default:
       //throw new Error(this.question.type + " ist nicht vorhanden von der Frage: " + this.question.question);
+    }
+    
+    if (this.frageListe.length != 0) {
+      this.frageListe.forEach(question => {
+        question.sendAnswer();
+      });
     }
   }
 

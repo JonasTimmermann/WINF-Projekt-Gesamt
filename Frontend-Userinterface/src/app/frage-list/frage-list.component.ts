@@ -7,6 +7,8 @@ import { AnswerButtonService } from './answer-button.service';
 import { AnswerToServerService } from './answer-to-server.service';
 import { AntragtextService } from '../body-upper-part/antragtext.service';
 import { ShowLoadingScreenService } from '../loading-screen/show-loading-screen.service';
+import { FrageDatenschutzComponent } from './frage-datenschutz/frage-datenschutz.component';
+import { FrageCategroyComponent } from './frage-category/frage-category.component';
 
 @Component({
   selector: 'app-frage-list',
@@ -16,28 +18,30 @@ import { ShowLoadingScreenService } from '../loading-screen/show-loading-screen.
 })
 export class FrageListComponent implements OnInit {
   displayingQuestions: Question[];
-  private questionsData:any; 
+  private questionsData: any;
 
   formulare: string[];
-  categories: string[]; 
+  categories: string[];
   isFormularChoosed: Boolean = false;
   choosedFormular: string;
   isSubFormularChoosed: Boolean = false;
   //Styles für den Abschick-Button
-  isChecked: Boolean = true;
+  isButtonDisabled: Boolean = true;
   pointerSubmit: String = 'not-allowed'
   @Output() AnswerEvent: EventEmitter<String> = new EventEmitter<String>();
   //Greife auf die Componente zu
   @ViewChildren(FrageListItemComponent) frageListe: QueryList<FrageListItemComponent>;
-  constructor(private httpClient: HttpService, 
+  @ViewChild(FrageDatenschutzComponent,null) datenschutz: FrageDatenschutzComponent; 
+  @ViewChild(FrageCategroyComponent,null) categoryComponent: FrageCategroyComponent;
+  constructor(private httpClient: HttpService,
     private answerService: AnswerButtonService,
     private answerToServer: AnswerToServerService,
-    private categoryService: CategoryType, 
-    private questionMapById: MapById, 
-    private questionMapByType: MapByTypeAndCategory, 
+    private categoryService: CategoryType,
+    private questionMapById: MapById,
+    private questionMapByType: MapByTypeAndCategory,
     private formularService: FormularType,
     private allgHinweis: AntragtextService,
-    private loadingScreen: ShowLoadingScreenService){
+    private loadingScreen: ShowLoadingScreenService) {
   }
 
   ngOnInit() {
@@ -48,15 +52,17 @@ export class FrageListComponent implements OnInit {
       (err: HttpErrorResponse) => {
         console.log(err.message);
       });
-    this.formularService.getAllForms().subscribe(arr=>{this.formulare=arr});
-    this.categoryService.getAllCategories().subscribe(arr => { this.categories = arr} );  
+    this.formularService.getAllForms().subscribe(arr => { this.formulare = arr });
+    this.categoryService.getAllCategories().subscribe(arr => {
+      //this.categories = arr
+    });
 
-    this.answerService.formularIsChecked.subscribe(status =>{
-      if(status){
-        this.isChecked = false;
+    this.answerService.formularIsChecked.subscribe(status => {
+      if (status) {
+        this.isButtonDisabled = false;
         this.pointerSubmit = 'pointer'
-      }else{
-        this.isChecked = true;
+      } else {
+        this.isButtonDisabled = true;
         this.pointerSubmit = 'not-allowed'
       }
     })
@@ -65,8 +71,18 @@ export class FrageListComponent implements OnInit {
   formularIsSelected(event: Event) {
     // Guck welches Formular
     this.choosedFormular = (<HTMLInputElement>event.target).value;
+    
     this.isFormularChoosed = true;
     this.isSubFormularChoosed = false;
+    let formId = this.formularService.getIdByForm(this.choosedFormular);
+    let arr = this.questionMapByType.getIdforFormtype(formId);
+    this.categories = [];
+    for (let index = 0; index < arr.length; index++) {
+      const element = arr[index];
+      this.categories.push(this.categoryService.getCategorynameById(element));
+    }
+    this.categoryComponent.setToDefault(); 
+
   }
 
   selectedCategory(category: string) {
@@ -80,78 +96,61 @@ export class FrageListComponent implements OnInit {
     this.frageListe.forEach(question => {
       question.checkQuestion();
     });
-    if(this.answerService.allChecked == null){
-      this.answerService.allChecked = true; 
+    this.datenschutz.checkQuestion(); 
+    if (this.answerService.allChecked == null) {
+      this.answerService.allChecked = true;
     }
-    if(this.answerService.allChecked){
-      this.isChecked = false;
+    if (this.answerService.allChecked) {
+      this.isButtonDisabled = false;
       this.pointerSubmit = 'pointer'
-    }else{
-      this.isChecked = true;
+    } else {
+      this.isButtonDisabled = true;
       this.pointerSubmit = 'not-allowed'
     }
   }
 
   changeDisplayingQuestion(formular: string, category: string) {
-  // ! muss gefixet werden  this.loadingScreen.show(); 
+    // ! muss gefixet werden  this.loadingScreen.show(); 
     let key = { formularType: formular, category: category };
     let formId = this.formularService.getIdByForm(formular);
-    let categoryId = this.categoryService.getIdByCategoryname(category); 
-    this.httpClient.getFirstQuestion(formId,categoryId).subscribe((data)=>{
+    let categoryId = this.categoryService.getIdByCategoryname(category);
+    this.answerToServer.changeFormtype(formId);
+    this.httpClient.getFirstQuestion(formId, categoryId).subscribe((data) => {
       this.changeTheView(data);
     });
-   /*
-   this.isSubFormularChoosed = true;
-   this.displayingQuestions = []; 
-   this.displayingQuestions = this.questionMapByType.get(key); 
-   this.answerToServer.changeFormtype(formId);
-   */
+    /*
+    this.isSubFormularChoosed = true;
+    this.displayingQuestions = []; 
+    this.displayingQuestions = this.questionMapByType.get(key); 
+    this.answerToServer.changeFormtype(formId);
+    */
   }
 
-  // ! nur benutzen wenn das Objekt geändert wurde. 
-  changeTheView(findStartObj){
+  changeTheView(findStartObj) {
     this.isSubFormularChoosed = true;
-    let questionId = findStartObj.questionId; 
-    let startText = findStartObj.startText; 
+    let questionId = findStartObj.questionId;
+    let startText = findStartObj.startText;
     this.allgHinweis.changeShownText(startText);
-    
+
     // Fragen durchlaufen nach Fragen, die angezeigten werden sollen
-    let getToEnd = false; 
-    this.displayingQuestions = []; 
-    while(!getToEnd){
+    let getToEnd = false;
+    this.displayingQuestions = [];
+    while (!getToEnd) {
       let question = this.questionMapById.get(questionId);
-      if(question == null){
+      if (question == null) {
         // ! muss gefixet werden this.loadingScreen.unshow();
-        break; 
+        break;
       }
-      this.displayingQuestions.push(question); 
-      if(question.defaultWay != null){
-      questionId = question.defaultWay;
+      this.displayingQuestions.push(question);
+      if (question.defaultWay != null) {
+        questionId = question.defaultWay;
       } else {
         this.loadingScreen.unshow();
-        getToEnd = true; 
+        getToEnd = true;
       }
     }
   }
 
-  // ! Dies ist die alte Version und arbeite mit einer Frage die gesendet wird. 
-  _changeTheView(question){
-    this.isSubFormularChoosed = true;
-    this.allgHinweis.changeShownText("hallo");
-    let questionId = question.id; 
-    let getToEnd = false; 
-    this.displayingQuestions = []; 
-    while(!getToEnd){
-      let question = this.questionMapById.get(questionId);
-      this.displayingQuestions.push(question); 
-      if(question.defaultWay != 0){
-      questionId = question.defaultWay;
-      } else {
-        getToEnd = true; 
-      }
-    }
-    this.loadingScreen.unshow();
-  }
   /**
    * Diese Methode extrahiet die Daten aus der JSON Datei, die uns gesendet wurde
    */
@@ -163,10 +162,10 @@ export class FrageListComponent implements OnInit {
       let questionId: number = question.id;
       let questionMsg = question.question;
       let questionDefaultWay: number = question.questionType.defaultWay;
-      let questionUseDefault = question.questionType.useDefault; 
+      let questionUseDefault = question.questionType.useDefault;
       let questionType = QuestionType.getTyp(question.questionType.type);
       let questionAnswer: QuestionAnswer[] = [];
-      let questionMandatory:boolean = question.mandatory; 
+      let questionMandatory: boolean = question.mandatory;
       let questionHint = question.hint;
       let questionFormtype = question.formType;
       //TODO Kann mehrere Catgeories erhalten 
@@ -180,22 +179,40 @@ export class FrageListComponent implements OnInit {
           questionAnswer.push(answer);
         }
         // TODO NUR DRIN WEIL BEI ALLEN DEFAULT FALSE IST 
-        questionUseDefault = true; 
+        questionUseDefault = true;
       }
       //Formulartype und Subcategory passen 
-      let questionObj = new Question(questionId ,questionMsg, questionType, questionFormtype, questionCategory, questionMandatory ,questionHint, questionAnswer,questionUseDefault,questionDefaultWay);
+      let questionObj = new Question(questionId, questionMsg, questionType, questionFormtype, questionCategory, questionMandatory, questionHint, questionAnswer, questionUseDefault, questionDefaultWay);
       // Jetzt mappen wegen next Question 
       this.questionMapById.set(questionId, questionObj);
-      this.questionMapByType.set({ formularType: questionFormtype, category: questionCategory}, questionObj);
+      this.questionMapByType.set({ formularType: questionFormtype, category: questionCategory }, questionObj);
+      let formId = this.formularService.getIdByForm(questionFormtype);
+      let categoryId = this.categoryService.getIdByCategoryname(questionCategory);
+      this.questionMapByType.add(formId, categoryId);
       console.log("Nächste Frage");
       console.log(question);
       console.log(questionObj);
     }
   }
-  sendToServer(){
-    this.frageListe.forEach((question)=> {
-      question.sendAnswer(); 
-    }); 
-    this.answerToServer.startSending().subscribe(()=>{console.log("geschafft")}); 
+
+  sendToServer() {
+    if(!this.isButtonDisabled){
+    this.frageListe.forEach((question) => {
+      question.sendAnswer();
+    });
+    let formId = this.formularService.getIdByForm(this.choosedFormular);
+    this.httpClient.askForFilledForm(formId).subscribe(data => {
+      /*
+      {
+        allAnswers: Array []
+        fillingPerson: null
+        form: 1
+        id: 1
+      }
+      */
+      data.fillingPerson = "Laukar Tofik";
+      this.answerToServer.startSending(data.id);
+    })
   }
+}
 }

@@ -15,11 +15,12 @@ export class FrageDataInputComponent implements OnInit, QuestionInterface {
 		fileanswer: null,
 		question_id: null,
     aoa: []};
+  file: File; 
+  formData: FormData; 
   //Abschecken was man machen muss mit Daten die hochgeladen werden 
   @Output() AnswerEvent: EventEmitter<String> = new EventEmitter<String>();
   status: boolean[] = [false, false];
   @Input() question: Question; 
-  data: string; 
   @ViewChild('inputField', null) inputField: ElementRef; 
   constructor(private noteService: HinweisAnzeigeService,
     private answerService: AnswerButtonService,
@@ -36,8 +37,7 @@ export class FrageDataInputComponent implements OnInit, QuestionInterface {
   getAnswer() {
     let mandatory = this.question.mandatory; 
     if(this.checkAnswer()){
-      this.data = (<HTMLInputElement>event.target).value; 
-      this.AnswerEvent.emit(this.data); 
+      this.AnswerEvent.emit(this.file.name); 
       this.status[0] = true; 
       this.status[1] = false; 
       if(this.question.isValid != null && !this.question.isValid){
@@ -64,15 +64,19 @@ export class FrageDataInputComponent implements OnInit, QuestionInterface {
   }
 
   sendToServer(){
-    this.answerJSON.fileanswer = this.data; 
+    this.answerJSON.aoa = [{answer:null}]; 
     this.answerJSON.question_id = this.question.id; 
-    this.answerToServer.addAnswer(this.question.id, JSON.stringify(this.answerJSON));
+    this.answerToServer.addAnswer(this.question.id, JSON.stringify(this.answerJSON), true,this.formData);
   }
   checkAnswer(): boolean {
-    if(this.inputField.nativeElement.value == ""){
-    return false; 
-    }else{
+    let fileList: FileList = this.inputField.nativeElement.files 
+    if(fileList.length > 0){
+      this.file = fileList[0];
+      this.formData = new FormData();
+      this.formData.append('file', this.file);
       return true; 
+    }else{
+      return false; 
     }
   }
 

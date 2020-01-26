@@ -1,4 +1,6 @@
-<div (mouseover)="updateNote()"> 
-<label [for]="question.id" class="font-weight-bold">{{question.question}} <span  class="font-weight-lighter"  *ngIf="!question.mandatory">(Optional)</span></label>
-<input class="form-control" [ngClass]="{'is-valid':status[0], 'is-invalid': status[1]}" id="question.id" [type]="question.type" (change)="updateAnswer($event)" >
+<div (mouseover)="updateNote()">
+    <label [for]="question.id" class="font-weight-bold">{{question.question}} <span class="font-weight-lighter"
+            *ngIf="!question.mandatory">(Optional)</span></label>
+    <input class="form-control" [ngClass]="{'is-valid':status[0], 'is-invalid': status[1]}" id="question.id"
+        [type]="question.type" (change)="updateAnswer($event)">
 </div>
