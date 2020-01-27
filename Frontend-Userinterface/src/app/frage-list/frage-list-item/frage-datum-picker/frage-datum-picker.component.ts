@@ -25,7 +25,7 @@ export class FrageDatumPickerComponent implements OnInit, QuestionInterface, Aft
   
   startOption = {
     locale: moment.locale('de'),
-      format:'DD/MM/YYYY HH:mm U\hr',
+      format:'DD/MM/YYYY HH:mm',
       minDate: moment(),
       icons: {
         time: 'far fa-clock',
